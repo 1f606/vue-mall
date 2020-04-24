@@ -12,12 +12,12 @@
               <div class="container">
                 <ul>
                   <li class="index-nav_prod" v-for="item in productList" :key="item.id">
-                    <a href="javascript:void(0)" target="_blank">
+                    <a :href="'/#/product/'+item.id" target="_blank">
                       <div class="prod-img">
-                        <img :src="item.mainImage" alt="product">
+                        <img :src="item.mainImage" :alt="item.subtitle">
                       </div>
                       <div class="prod-name">{{item.name}}</div>
-                      <div class="prod-price">{{item.price}}</div>
+                      <div class="prod-price">{{item.price | priceFormatter}}</div>
                     </a>
                   </li>
                 </ul>
@@ -56,12 +56,24 @@ export default {
   created () {
     this.getProductList()
   },
+  filters: {
+    priceFormatter (val) {
+      if (!val) return '0.00'
+      return '￥' + val.toFixed(2) + '元'
+    }
+  },
   methods: {
     getProductList () {
       this.$apis.productList(100012).then(res => {
         console.log(res)
         this.productList = res.data.list.slice(0, 6)
       })
+    },
+    toLogin () {
+      this.$router.push('/login')
+    },
+    toCart () {
+      this.$router.push('/cart')
     }
   }
 }
@@ -156,6 +168,7 @@ export default {
           z-index: $subListZIndex;
           background-color: #fff;
           transition: height .2s;
+
           .container {
             > ul {
               &::before, &::after {
@@ -165,29 +178,35 @@ export default {
               }
             }
           }
+
           .index-nav_prod {
             float: left;
             width: 16.6%;
             height: 220px;
             position: relative;
             text-align: center;
+
             a {
               display: inline-block;
               text-align: center;
+
               .prod-img img {
                 height: 111px;
                 width: auto;
                 margin-top: 26px;
               }
+
               .prod-name {
                 margin: 19px 0 8px;
                 font-weight: bold;
                 color: $colorB;
               }
+
               .prod-price {
-                color:$colorA;
+                color: $colorA;
               }
             }
+
             &:not(:last-child) {
               &::after {
                 content: '';
