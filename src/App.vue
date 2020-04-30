@@ -6,7 +6,23 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  created () {
+    this.getUserInfo()
+    this.getCartInfo()
+  },
+  methods: {
+    getUserInfo () {
+      this.$apis.userInfo().then((res = {}) => {
+        this.$store.dispatch('setUserName', res.username)
+      })
+    },
+    getCartInfo () {
+      this.$apis.cartCount().then((res = 0) => {
+        this.$store.dispatch('setCartCount', res)
+      })
+    }
+  }
 }
 </script>
 

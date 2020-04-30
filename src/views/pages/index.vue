@@ -55,7 +55,7 @@
           </a>
         </div>
       </div>
-      <div class="index-swiper" style="position: relative">
+      <div class="index-swiper">
         <div class="index-swiper_menu">
           <div class="index-swiper_menuItem">
             <div class="index-swiper_toggle">手机卡 电话卡</div>
@@ -198,18 +198,18 @@
             </div>
           </div>
         </div>
-        <swiper ref="mySwiper" :options="swiperOptions">
+        <swiper :options="swiperOptions">
           <swiper-slide v-for="item in slideList" :key="item.id">
-            <img :src=item.img alt="slideImg"/>
+            <a :href="'/#/product/'+item.id"><img :src="item.img"></a>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
+          <div class="swiper-button-prev" slot="button-prev"></div>
+          <div class="swiper-button-next" slot="button-next"></div>
         </swiper>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
       </div>
       <div class="index-adsList">
         <a class="index-adsList_item" v-for="item in adsList" :key="item.id">
-          <img :src="item.img" alt="advertise"/>
+          <img v-lazy="item.img" alt="advertise"/>
         </a>
       </div>
     </div>
@@ -228,21 +228,34 @@
               </div>
               <div class="index-phone_name">{{item.name}}</div>
               <div class="index-phone_desc">{{item.subtitle}}</div>
-              <div class="index-phone_price">
+              <div class="index-phone_price" @click="showModal = true">
                 {{item.price}}
-                <div class="index-phone_buy"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <Modal
+      title="提示"
+      type="1"
+      confirm-text="查看购物车"
+      size="middle"
+      :show-modal="showModal"
+      @cancel="showModal = false"
+      @confirm="toCart"
+    >
+      <template slot="body">
+        <p>商品添加成功</p>
+      </template>
+    </Modal>
     <service-bar></service-bar>
   </div>
 </template>
 
 <script>
 import ServiceBar from '../components/ServiceBar'
+import Modal from '../../components/Modal'
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 
@@ -336,13 +349,15 @@ export default {
           img: require('../../../public/imgs/ads/ads-4.jpg')
         }
       ],
-      phoneList: []
+      phoneList: [],
+      showModal: false
     }
   },
   components: {
     ServiceBar,
     Swiper,
-    SwiperSlide
+    SwiperSlide,
+    Modal
   },
   created () {
     this.getProductList()
@@ -357,14 +372,13 @@ export default {
   methods: {
     getProductList () {
       this.$apis.productList(100012).then(res => {
-        this.productList = res.data.list.slice(0, 6)
-        this.productListTwo = res.data.list.slice(5)
+        this.productList = res.list.slice(0, 6)
+        this.productListTwo = res.list.slice(5)
       })
     },
     getPhoneList () {
-      this.$apis.productList(100012).then(res => {
-        console.log(res)
-        this.phoneList = res.data.list.slice(0, 8)
+      this.$apis.productList(100012, 14).then(res => {
+        this.phoneList = res.list.slice(6, 14)
       })
     },
     toLogin () {
@@ -379,6 +393,7 @@ export default {
 
 <style lang="scss" scoped>
   @import '../../../src/assets/style/variables';
+  @import '../../../src/assets/style/mixin';
 
   .index {
     position: relative;
@@ -552,9 +567,18 @@ export default {
   }
 
   .index-swiper {
+    position: relative;
+
     .swiper-container {
+      height: 451px;
+
       img {
-        height: 460px;
+        height: 100%;
+        width: 100%;
+      }
+
+      .swiper-button-prev {
+        left: 264px;
       }
     }
 
@@ -562,8 +586,10 @@ export default {
       position: absolute;
       left: 0;
       top: 0;
+      box-sizing: border-box;
+      height: 451px;
       padding: 20px 0;
-      z-index: 99999;
+      z-index: 10;
       color: #fff;
       background-color: rgba(105, 101, 101, .6);;
 
@@ -628,6 +654,8 @@ export default {
   }
 
   .index-adsList {
+    padding: 14px 0 31px;
+
     &::before, &::after {
       content: '';
       display: block;
@@ -730,6 +758,13 @@ export default {
         color: #f20a0a;
         font-size: 14px;
         font-weight: 700;
+        cursor: pointer;
+
+        &::after {
+          content: '';
+          @include bgImg(22px, 22px, '../../../public/imgs/icon-cart-hover.png');
+          vertical-align: text-bottom;
+        }
       }
     }
   }

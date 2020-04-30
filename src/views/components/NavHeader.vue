@@ -8,9 +8,14 @@
         <a href="javascript:void(0)">协议规则</a>
       </div>
       <div class="nav-user">
-        <a href="javascript:void(0)">user</a>
-        <a href="javascript:void(0)">我的订单</a>
-        <div class="cart"><span class="icon-cart"></span>购物车</div>
+        <div v-if="username">
+          <a href="javascript:void(0)">{{username}}</a>
+          <a href="javascript:void(0)">我的订单</a>
+        </div>
+        <div v-else>
+          <a href="/#/login">请登录</a>
+        </div>
+        <div class="cart"><span class="icon-cart"></span>购物车({{cartCount}})</div>
       </div>
     </div>
   </div>
@@ -18,7 +23,15 @@
 
 <script>
 export default {
-  name: 'nav-header'
+  name: 'nav-header',
+  computed: {
+    username () {
+      return this.$store.state.username
+    },
+    cartCount () {
+      return this.$store.state.cartCount
+    }
+  }
 }
 </script>
 
