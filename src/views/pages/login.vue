@@ -27,12 +27,12 @@
     </div>
     <div class="footer">
       <div class="footer-link">
-        <a href="https://www.imooc.com/u/1343480" target="_blank">河畔一角主页</a><span>|</span>
-        <a href="https://coding.imooc.com/class/113.html" target="_blank">Vue全栈课程</a><span>|</span>
-        <a href="https://coding.imooc.com/class/236.html" target="_blank">React全家桶课程</a><span>|</span>
-        <a href="https://coding.imooc.com/class/343.html" target="_blank">微信支付专项课程（H5+小程序/云+Node+MongoDB）</a>
+        <a href="javascript:void(0)" target="_blank">footer</a><span>|</span>
+        <a href="javascript:void(0)" target="_blank">footer</a><span>|</span>
+        <a href="javascript:void(0)" target="_blank">footer</a><span>|</span>
+        <a href="javascript:void(0)" target="_blank">footer</a><span>|</span>
       </div>
-      <p class="copyright">Copyright ©2019 mi.futurefe.com All Rights Reserved.</p>
+      <p class="copyright">footer</p>
     </div>
   </div>
 </template>
@@ -54,7 +54,7 @@ export default {
         password
       }).then((res) => {
         this.$cookie.set('userId', res.id, { expires: 'Session' })
-        this.$store.dispatch('saveUserName', res.username)
+        this.$store.dispatch('setUserName', res.username)
         this.$router.push({
           name: 'index',
           params: {

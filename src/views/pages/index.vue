@@ -228,7 +228,7 @@
               </div>
               <div class="index-phone_name">{{item.name}}</div>
               <div class="index-phone_desc">{{item.subtitle}}</div>
-              <div class="index-phone_price" @click="showModal = true">
+              <div class="index-phone_price" @click="addCart(item.id)">
                 {{item.price}}
               </div>
             </div>
@@ -372,13 +372,13 @@ export default {
   methods: {
     getProductList () {
       this.$apis.productList(100012).then(res => {
-        this.productList = res.list.slice(0, 6)
-        this.productListTwo = res.list.slice(5)
+        this.productList = res.data.list.slice(0, 6)
+        this.productListTwo = res.data.list.slice(5)
       })
     },
     getPhoneList () {
       this.$apis.productList(100012, 14).then(res => {
-        this.phoneList = res.list.slice(6, 14)
+        this.phoneList = res.data.list.slice(6, 14)
       })
     },
     toLogin () {
@@ -386,6 +386,15 @@ export default {
     },
     toCart () {
       this.$router.push('/cart')
+    },
+    addCart (id) {
+      this.$apis.addCart({
+        productId: id,
+        selected: true
+      }).then(res => {
+        console.log(res.data)
+        this.showModal = true
+      })
     }
   }
 }

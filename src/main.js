@@ -8,6 +8,10 @@ import './assets/style/reset.scss'
 import './assets/style/_global.scss'
 import VueLazyload from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
+import element from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
+Vue.use(element)
 
 Vue.use(VueLazyload, {
   loading: '../public/imgs/loading-svg/loading-bars.svg'

@@ -38,14 +38,14 @@
             </div>
           </div>
           <div class="item-total">
-            <div class="phone-info clearfix">
-              <div class="fl">{{product.name}} {{version==1?'6GB+64GB 全网通':'4GB+64GB 移动4G'}} 深灰色</div>
-              <div class="fr">{{product.price}}元</div>
+            <div class="phone-info">
+              <div style="float: left">{{product.name}} {{version==1?'6GB+64GB 全网通':'4GB+64GB 移动4G'}} 深灰色</div>
+              <div style="float: right">{{product.price}}元</div>
             </div>
             <div class="phone-total">总计：{{product.price}}元</div>
           </div>
           <div class="btn-group">
-            <a href="javascript:;" class="btn btn-huge fl" @click="addCart">加入购物车</a>
+            <a href="javascript:;" class="btn btn-huge" style="float: left" @click="addCart">加入购物车</a>
           </div>
         </div>
       </div>
@@ -95,13 +95,16 @@ export default {
   methods: {
     getProductInfo () {
       this.$apis.productInfo(this.id).then((res) => {
-        this.product = res
+        this.product = res.data
       })
     },
     addCart () {
-      this.$apis.addCart(this.id).then((res = { cartProductVoList: 0 }) => {
-        this.$store.dispatch('saveCartCount', res.cartTotalQuantity)
-        // this.$router.push('/cart');
+      this.$apis.addCart({
+        productId: this.id,
+        selected: true
+      }).then((res) => {
+        this.$store.dispatch('setCartCount', res.data.cartTotalQuantity || 0)
+        this.$router.push('/cart')
       })
     }
   }
@@ -254,6 +257,13 @@ export default {
           margin-top: 50px;
           margin-bottom: 30px;
           box-sizing: border-box;
+          .phone-info {
+            &::before, &::after {
+              content: '';
+              display: block;
+              clear: both;
+            }
+          }
 
           .phone-total {
             font-size: 24px;

@@ -1,19 +1,19 @@
 <template>
   <div>
-    <order-header></order-header>
     <router-view/>
+    <service-bar></service-bar>
     <nav-footer></nav-footer>
   </div>
 </template>
 
 <script>
-import OrderHeader from './OrderHeader'
 import NavFooter from './NavFooter'
+import ServiceBar from './ServiceBar'
 export default {
   name: 'order-layout',
   components: {
-    OrderHeader,
-    NavFooter
+    NavFooter,
+    ServiceBar
   }
 }
 </script>

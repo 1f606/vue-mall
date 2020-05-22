@@ -48,11 +48,6 @@ const routes = [
         component: () => import('../views/pages/orderList.vue')
       },
       {
-        path: 'confirm',
-        name: 'order-confirm',
-        component: () => import('../views/pages/orderConfirm.vue')
-      },
-      {
         path: 'pay',
         name: 'order-pay',
         component: () => import('../views/pages/orderPay.vue')
@@ -61,6 +56,11 @@ const routes = [
         path: 'alipay',
         name: 'alipay',
         component: () => import('../views/pages/alipay.vue')
+      },
+      {
+        path: 'confirm',
+        name: 'order-confirm',
+        component: () => import('../views/pages/orderConfirm.vue')
       }
     ]
   }

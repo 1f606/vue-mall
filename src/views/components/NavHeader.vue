@@ -10,12 +10,12 @@
       <div class="nav-user">
         <div v-if="username">
           <a href="javascript:void(0)">{{username}}</a>
-          <a href="javascript:void(0)">我的订单</a>
+          <a href="/#/order/list">我的订单</a>
         </div>
         <div v-else>
           <a href="/#/login">请登录</a>
         </div>
-        <div class="cart"><span class="icon-cart"></span>购物车({{cartCount}})</div>
+        <div class="cart" @click="$router.push('/cart')"><span class="icon-cart"></span>购物车({{cartCount}})</div>
       </div>
     </div>
   </div>
@@ -70,6 +70,7 @@ export default {
         text-align: center;
         background-color: $colorA;
         color: #fff;
+        cursor: pointer;
         .icon-cart {
           display: inline-block;
           width: 16px;

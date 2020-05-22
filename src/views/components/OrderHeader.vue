@@ -20,6 +20,11 @@ export default {
   name: 'order-header',
   props: {
     title: String
+  },
+  computed: {
+    username () {
+      return this.$store.state.username
+    }
   }
 }
 </script>

@@ -10,7 +10,7 @@ axios.interceptors.response.use(response => {
       })
     }
   }
-  return response.data.data
+  return response.data
 }, err => {
   if (err && err.response) {
     switch (err.response.status) {

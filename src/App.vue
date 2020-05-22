@@ -14,12 +14,12 @@ export default {
   methods: {
     getUserInfo () {
       this.$apis.userInfo().then((res = {}) => {
-        this.$store.dispatch('setUserName', res.username)
+        this.$store.dispatch('setUserName', res.data && res.data.username)
       })
     },
     getCartInfo () {
       this.$apis.cartCount().then((res = 0) => {
-        this.$store.dispatch('setCartCount', res)
+        this.$store.dispatch('setCartCount', res.data)
       })
     }
   }
